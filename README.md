@@ -1,338 +1,333 @@
-# \# Copilot + Claude Skills for Microsoft Fabric
+# Copilot Claude Skills for Microsoft Fabric
 
-# 
+A curated collection of AI Agent Skills that bring
+Microsoft Fabric expertise directly into your development
+workflow. Each skill teaches Claude structured
+troubleshooting, performance remediation, and operational
+guidance for specific Fabric workloads — so you spend less
+time searching documentation and more time solving problems.
 
-# A curated set of \*\*agent skills\*\* designed for \*\*Microsoft Copilot\*\* and \*\*Claude\*\* workflows in \*\*Microsoft Fabric\*\*. These skills focus on \*\*performance diagnostics\*\*, \*\*remediation\*\*, \*\*security hardening\*\*, and \*\*operational monitoring\*\* across Fabric components (Lakehouse, OneLake, Notebooks, Spark, Data Factory, Power BI, REST APIs, RTI).
+![Skills](https://img.shields.io/badge/skills-23-blue)
+[![License](https://img.shields.io/badge/license-Apache%202.0-green)](LICENSE)
 
-# 
+## How It Works
 
-# > \*\*Note\*\*: Skill behavior and tool permissions depend on your Copilot/Claude runtime and your Fabric tenant configuration. Review the \*\*Safety \& Permissions\*\* section before enabling write/remediation actions.
+These skills follow the open
+[Agent Skills specification](https://agentskills.io/) and
+use a progressive-loading architecture. When you ask Claude
+a question about Fabric, only the relevant skill loads into
+context — keeping conversations fast and focused.
 
-# 
+```text
+You: "My MLV refresh keeps falling back to full."
 
-# ---
+Claude: [loads fabric-lakehouse-views-perf-remediate]
+        -> Checks CDF status on source tables
+        -> Reviews query for unsupported expressions
+        -> Walks you through enabling optimal refresh
+```
 
-# 
+Each skill bundles:
 
-# \## Repository Structure
+- **SKILL.md** — main instructions with diagnostic
+  checklists, step-by-step workflows, and troubleshooting
+  matrices
+- **references/** — deep-dive guides, failure-pattern
+  catalogs, and architecture notes
+- **scripts/** — ready-to-run SQL, PowerShell, or Python
+  diagnostics
+- **templates/** — fill-in-the-blank notebooks and runbooks
 
-# 
+## Quick Start
 
-# ```
+### Install All Skills (User-Wide)
 
-# 
+```bash
+git clone https://github.com/<org>/copilot-claude-skills-fabric.git
+cp -r copilot-claude-skills-fabric/skills/* \
+      ~/.claude/skills/
+```
 
-# .
+### Install a Single Skill
 
-# ├─ skills/
+```bash
+cp -r \
+  copilot-claude-skills-fabric/skills/fabric-lakehouse-perf-remediate \
+  ~/.claude/skills/
+```
 
-# │  ├─ fabric-data-agent/
+### Install Into a Project
 
-# │  ├─ fabric-data-agent-perf-remediate/
+```bash
+cp -r \
+  copilot-claude-skills-fabric/skills/fabric-spark-perf-remediate \
+  .claude/skills/
+```
 
-# │  ├─ fabric-data-agent-remediate/
+After copying, skills are available immediately. Claude
+discovers them automatically based on your prompts — no
+configuration required.
 
-# │  ├─ fabric-data-factory-perf-remidiate/
+## Skills Catalog
 
-# │  ├─ fabric-delta-spark-perf/
+The repository contains **23 skills** organized across nine
+Fabric workload areas.
 
-# │  ├─ fabric-iq/
+### Data Agent
 
-# │  ├─ fabric-lakehouse-perf-remidiate/
+Configure, troubleshoot, and optimize Fabric Data Agent
+capabilities.
 
-# │  ├─ fabric-notebook-perf-remediate/
+| Skill | Purpose |
+|---|---|
+| [fabric-data-agent][s01] | Core Data Agent configuration, setup, and operational workflows |
+| [fabric-data-agent-perf-remediate][s02] | Response latency, throughput optimization, and performance diagnostics |
+| [fabric-data-agent-remediate][s03] | Error resolution, connectivity failures, and configuration fixes |
 
-# │  ├─ fabric-onelake-perf-remediate/
+[s01]: skills/fabric-data-agent/
+[s02]: skills/fabric-data-agent-perf-remediate/
+[s03]: skills/fabric-data-agent-remediate/
 
-# │  ├─ fabric-pbi-perf-remidiate/
+### Data Factory
 
-# │  ├─ fabric-pbi-security-remediate/
+Pipeline performance and remediation for Fabric Data
+Factory.
 
-# │  ├─ fabric-performance-monitoring/
+| Skill | Purpose |
+|---|---|
+| [fabric-data-factory-perf-remediate][s04] | Pipeline tuning, activity duration, copy-activity diagnostics |
 
-# │  ├─ fabric-pyspark-perf-remediate/
+[s04]: skills/fabric-data-factory-perf-remediate/
 
-# │  ├─ fabric-rest-api-perf-remediate/
+### Lakehouse
 
-# │  ├─ fabric-rest-api-remediate/
+Lakehouse access control, materialized views, and query
+optimization.
 
-# │  ├─ fabric-rti-perf-remediate/
+| Skill | Purpose |
+|---|---|
+| [fabric-lakehouse-access-control][s05] | OneLake RBAC, workspace roles, table-level security, sharing |
+| [fabric-lakehouse-perf-remediate][s06] | Query performance, table maintenance, V-Order, bin-compaction |
+| [fabric-lakehouse-views-perf-remediate][s07] | MLV refresh optimization, incremental refresh, CDF, lineage |
 
-# │  ├─ fabric-spark-compute-perf-remediate/
+[s05]: skills/fabric-lakehouse-access-control/
+[s06]: skills/fabric-lakehouse-perf-remediate/
+[s07]: skills/fabric-lakehouse-views-perf-remediate/
 
-# │  ├─ fabric-spark-compute-remediate/
+### Spark and Compute
 
-# │  ├─ fabric-spark-perf-remediate/
+Apache Spark workloads, compute configuration, PySpark
+optimization, and UDF tuning.
 
-# │  └─ fabric-udf-perf-remediate/
+| Skill | Purpose |
+|---|---|
+| [fabric-delta-spark-perf][s08] | Delta Lake on Spark: file sizing, Z-order, partition pruning, caching |
+| [fabric-spark-compute-perf-remediate][s09] | Pool sizing, autoscale configuration, resource allocation |
+| [fabric-spark-compute-remediate][s10] | Compute error resolution, pool failures, session management |
+| [fabric-spark-perf-remediate][s11] | Shuffle tuning, join strategies, broadcast thresholds |
+| [fabric-pyspark-perf-remediate][s12] | Pandas UDFs, Arrow integration, Python worker tuning |
+| [fabric-udf-perf-remediate][s13] | Serialization overhead, vectorized UDFs, SQL alternatives |
 
-# ├─ fabric-data-agent.zip
+[s08]: skills/fabric-delta-spark-perf/
+[s09]: skills/fabric-spark-compute-perf-remediate/
+[s10]: skills/fabric-spark-compute-remediate/
+[s11]: skills/fabric-spark-perf-remediate/
+[s12]: skills/fabric-pyspark-perf-remediate/
+[s13]: skills/fabric-udf-perf-remediate/
 
-# └─ README.md
+### Notebook
 
-# 
+Fabric notebook execution and performance.
 
-# ````
+| Skill | Purpose |
+|---|---|
+| [fabric-notebook-perf-remediate][s14] | Session startup, cell latency, environment config, libraries |
 
-# 
+[s14]: skills/fabric-notebook-perf-remediate/
 
-# ---
+### OneLake
 
-# 
+OneLake storage-layer performance.
 
-# \## Included Skills
+| Skill | Purpose |
+|---|---|
+| [fabric-onelake-perf-remediate][s15] | I/O throughput, shortcuts, cross-region latency, tiering |
 
-# 
+[s15]: skills/fabric-onelake-perf-remediate/
 
-# | Skill | Purpose | Typical Output |
+### Power BI
 
-# |------|---------|----------------|
+Semantic model performance and security.
 
-# | `fabric-data-agent` | General Fabric data agent helpers (triage, guidance, best practices) | diagnosis + suggested actions |
+| Skill | Purpose |
+|---|---|
+| [fabric-pbi-perf-remediate][s16] | DAX optimization, model refresh, Direct Lake, rendering |
+| [fabric-pbi-security-remediate][s17] | RLS, OLS, workspace access, sensitivity labels |
 
-# | `fabric-data-agent-perf-remediate` | Performance triage + remediation for data workloads | prioritized fixes + expected impact |
+[s16]: skills/fabric-pbi-perf-remediate/
+[s17]: skills/fabric-pbi-security-remediate/
 
-# | `fabric-data-agent-remediate` | General remediation playbooks for data workloads | safe changes + rollback notes |
+### REST API
 
-# | `fabric-data-agent.zip` | Packaged artifact for distribution/import | zip bundle |
+Fabric REST API integration and performance.
 
-# | `fabric-data-factory-perf-remidiate` | Data Factory pipeline performance remediation | pipeline tuning checklist + diffs |
+| Skill | Purpose |
+|---|---|
+| [fabric-rest-api-perf-remediate][s18] | Latency, throttling, batch ops, long-running op polling |
+| [fabric-rest-api-remediate][s19] | Auth failures, payload issues, error resolution |
 
-# | `fabric-delta-spark-perf` | Delta + Spark performance optimization guidance | partition/Z-ORDER/file sizing guidance |
+[s18]: skills/fabric-rest-api-perf-remediate/
+[s19]: skills/fabric-rest-api-remediate/
 
-# | `fabric-iq` | Fabric “IQ” assistant skill (analysis, recommendations) | ranked insights + next steps |
+### Real-Time Intelligence
 
-# | `fabric-lakehouse-perf-remidiate` | Lakehouse performance remediation | layout/maintenance actions |
+Fabric Real-Time Intelligence workloads.
 
-# | `fabric-notebook-perf-remediate` | Notebook performance remediation | code + config improvements |
+| Skill | Purpose |
+|---|---|
+| [fabric-rti-perf-remediate][s20] | Eventhouse ingestion, KQL performance, RT dashboards |
 
-# | `fabric-onelake-perf-remediate` | OneLake performance remediation | data organization + access guidance |
+[s20]: skills/fabric-rti-perf-remediate/
 
-# | `fabric-pbi-perf-remidiate` | Power BI performance remediation | model/report tuning steps |
+### Network and Security
 
-# | `fabric-pbi-security-remediate` | Power BI security remediation | RLS/OLS/permissions checklist |
+Network connectivity and security configuration.
 
-# | `fabric-performance-monitoring` | Monitoring patterns (KPIs, alerts, runbooks) | dashboards + alert rules |
+| Skill | Purpose |
+|---|---|
+| [fabric-network-remediate][s21] | Private endpoints, managed VNet, firewall, outbound access |
 
-# | `fabric-pyspark-perf-remediate` | PySpark workload performance remediation | code patterns + execution tuning |
+[s21]: skills/fabric-network-remediate/
 
-# | `fabric-rest-api-perf-remediate` | REST API performance remediation | batching/retry/backoff guidance |
+### Platform Monitoring
 
-# | `fabric-rest-api-remediate` | REST API remediation (correctness, failures) | fix steps + validation |
+Cross-cutting performance monitoring and intelligent
+diagnostics.
 
-# | `fabric-rti-perf-remediate` | Real-time intelligence (RTI) perf remediation | throughput/latency tuning |
+| Skill | Purpose |
+|---|---|
+| [fabric-performance-monitoring][s22] | Capacity metrics, throttling, CU consumption, workload mgmt |
+| [fabric-iq][s23] | Fabric Copilot/IQ, natural-language diagnostics, insights |
 
-# | `fabric-spark-compute-perf-remediate` | Spark compute performance remediation | cluster sizing + job tuning |
+[s22]: skills/fabric-performance-monitoring/
+[s23]: skills/fabric-iq/
 
-# | `fabric-spark-compute-remediate` | Spark compute remediation (stability/correctness) | config fixes + guardrails |
+## Repository Structure
 
-# | `fabric-spark-perf-remediate` | Spark performance remediation (general) | execution plan improvements |
+```text
+copilot-claude-skills-fabric/
+├── README.md
+├── LICENSE
+├── CONTRIBUTING.md
+├── CHANGELOG.md
+└── skills/
+    ├── fabric-data-agent/
+    │   ├── SKILL.md
+    │   ├── LICENSE.txt
+    │   ├── references/
+    │   ├── scripts/
+    │   └── templates/
+    ├── fabric-data-agent-perf-remediate/
+    │   └── ...
+    └── ... (23 skill directories)
+```
 
-# | `fabric-udf-perf-remediate` | UDF performance remediation | rewrite patterns + alternatives |
+Each skill is self-contained. Install individual skills or
+the entire collection.
 
-# 
+## Skill Anatomy
 
-# > Spelling note: some skill folder names use `remidiate` vs `remediate`. The repo preserves the original names.
+Every skill follows the same internal structure:
 
-# 
+```text
+fabric-<workload>-<category>/
+├── SKILL.md           <- Entry point (< 500 lines)
+├── LICENSE.txt        <- Apache 2.0
+├── references/        <- Deep-dive docs (on demand)
+│   ├── common-failures.md
+│   └── architecture.md
+├── scripts/           <- Diagnostic scripts
+│   ├── health-check.sql
+│   └── audit.ps1
+└── templates/         <- Notebook/runbook starters
+    └── diagnostic.sql
+```
 
-# ---
+**Progressive loading** means Claude reads only the `name`
+and `description` from YAML frontmatter during discovery.
+The full SKILL.md body loads when your prompt matches.
+Scripts, references, and templates load only when Claude
+needs them during a workflow.
 
-# 
+## Naming Conventions
 
-# \## Quick Start
+Skills follow a consistent naming pattern:
 
-# 
+```text
+fabric-{workload}-{category}
+```
 
-# \### 1) Clone
+| Segment | Example Values | Meaning |
+|---|---|---|
+| `fabric` | — | All skills target Fabric |
+| workload | `lakehouse`, `spark`, `pbi` | Fabric service area |
+| category | `perf-remediate`, `remediate` | Type of guidance |
 
-# ```bash
+**Category definitions:**
 
-# git clone https://github.com/<your-org>/<your-repo>.git
+- **perf-remediate** — Performance diagnosis and
+  optimization
+- **remediate** — Error resolution and functional fixes
+- **access-control** — Security, RBAC, and permissions
+- **perf** — Performance best practices and patterns
+  (no active remediation)
 
-# cd <your-repo>
+## Requirements
 
-# ````
+- **Claude Desktop**, **Claude Code**, **VS Code with
+  Copilot**, or any tool supporting the
+  [Agent Skills spec](https://agentskills.io/)
+- **Microsoft Fabric** workspace (any SKU) for running
+  diagnostic scripts
+- **Fabric Notebook** or **SQL analytics endpoint** for
+  executing bundled SQL scripts
 
-# 
+No API keys or additional dependencies are required. The
+bundled scripts are standard Spark SQL, T-SQL, and
+PowerShell.
 
-# \### 2) Use with Copilot / Claude
+## Contributing
 
-# 
+Contributions are welcome. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding
+new skills, updating existing content, reporting
+inaccuracies, and submitting diagnostic scripts.
 
-# How you register skills depends on your host runtime. The typical flow is:
+All skills must pass the validation checklist before merge:
 
-# 
+- [ ] Valid YAML frontmatter (`name` and `description`)
+- [ ] `name` is lowercase with hyphens (max 64 chars)
+- [ ] `description` states WHAT, WHEN, and keywords
+  (max 1024 chars)
+- [ ] SKILL.md body under 500 lines
+- [ ] Large workflows split into `references/`
+- [ ] Scripts include usage comments and error handling
+- [ ] All resource paths are relative
+- [ ] No hardcoded credentials or secrets
+- [ ] Apache 2.0 `LICENSE.txt` included
 
-# 1\. \*\*Import\*\* a skill folder from `skills/<skill-name>/`
+## License
 
-# 2\. \*\*Configure tools\*\* (Fabric APIs, workspace access, GitHub permissions, etc.)
+This project is licensed under the Apache License 2.0.
+See [LICENSE](LICENSE) for the full text.
 
-# 3\. \*\*Run\*\* the skill by name in your assistant environment
+Microsoft Fabric, Power BI, OneLake, and related product
+names are trademarks of Microsoft Corporation. This project
+is not affiliated with or endorsed by Microsoft.
 
-# 
+## Acknowledgments
 
-# Example prompts:
-
-# 
-
-# \* “Run `fabric-spark-perf-remediate` on this Spark job output and propose safe changes.”
-
-# \* “Use `fabric-pbi-security-remediate` to review this dataset + workspace access model.”
-
-# 
-
-# ---
-
-# 
-
-# \## Safety \& Permissions
-
-# 
-
-# Some skills are designed to produce \*\*remediation steps\*\* that may imply changes to:
-
-# 
-
-# \* Spark configs / cluster sizing
-
-# \* Lakehouse layout and maintenance routines
-
-# \* Data Factory pipeline settings
-
-# \* Power BI model settings, RLS/OLS, tenant/workspace permissions
-
-# \* REST API retry/batching behavior
-
-# 
-
-# \*\*Recommended operating mode\*\*
-
-# 
-
-# \* Default to \*\*read-only / advisory\*\* behavior
-
-# \* Require explicit opt-in for any \*\*write\*\* actions
-
-# \* Always include \*\*rollback\*\* instructions for remediations
-
-# 
-
-# \*\*Minimum controls\*\*
-
-# 
-
-# \* Least-privilege credentials (scope per workspace)
-
-# \* Audit logging for tool calls and changes
-
-# \* Change management gates for production environments
-
-# 
-
-# ---
-
-# 
-
-# \## Contributing
-
-# 
-
-# \### Adding a new skill
-
-# 
-
-# 1\. Create `skills/<new-skill-name>/`
-
-# 2\. Include:
-
-# 
-
-# &nbsp;  \* `README.md` (skill intent, inputs/outputs, examples)
-
-# &nbsp;  \* `skill.json` or equivalent manifest (depending on your runtime)
-
-# &nbsp;  \* `tests/` with at least: golden-path, edge-case, adversarial prompt-injection case
-
-# 3\. Update the root README “Included Skills” table.
-
-# 
-
-# \### Quality bar
-
-# 
-
-# \* Deterministic outputs where possible (schemas/templates)
-
-# \* No unverified claims; cite authoritative sources when the skill references platform behavior
-
-# \* Include validation steps and expected outcomes
-
-# 
-
-# ---
-
-# 
-
-# \## Versioning
-
-# 
-
-# \* Skills are versioned via Git tags and release notes.
-
-# \* Any breaking change to inputs/outputs should bump a major version.
-
-# \* Every bug fix must add a regression test.
-
-# 
-
-# ---
-
-# 
-
-# \## License
-
-# 
-
-# Add your license here (e.g., MIT, Apache-2.0, proprietary). If you include Microsoft or third-party trademarks/logos, ensure you follow their trademark guidelines.
-
-# 
-
-# ---
-
-# 
-
-# \## Support
-
-# 
-
-# \* Open an issue with:
-
-# 
-
-# &nbsp; \* Skill name
-
-# &nbsp; \* Minimal reproduction prompt
-
-# &nbsp; \* Sanitized logs/tool outputs
-
-# &nbsp; \* Expected vs actual behavior
-
-# 
-
-# ```
-
-# 
-
-# If you want, I can also generate:
-
-# \- a `CONTRIBUTING.md`
-
-# \- a per-skill `README.md` template
-
-# \- a simple `skills/<name>/skill.json` manifest skeleton (tell me your target runtime format).
-
-# ::contentReference\[oaicite:0]{index=0}
-
-
-
+Built with information from
+[Microsoft Learn](https://learn.microsoft.com/fabric/) and
+real-world Fabric operational experience. Skills follow the
+[Agent Skills specification](https://agentskills.io/).
