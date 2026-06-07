@@ -8,6 +8,7 @@ guidance for specific Fabric workloads — so you spend less
 time searching documentation and more time solving problems.
 
 ![Skills](https://img.shields.io/badge/skills-23-blue)
+[![skills.sh](https://img.shields.io/badge/skills.sh-directory-0b7285)](https://skills.sh/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](LICENSE)
 
 ## How It Works
